@@ -9,7 +9,11 @@ const getCountryNames = (common, translations) => Object
     .map(key => ({ [key]: translations[key].common }))
     .reduce((prev, cur) => ({ ...prev, [Object.keys(cur)[0]]: cur[Object.keys(cur)[0]] }), {});
 
-const newcountries = countries
+const allowedContents = ['DE', 'CH', 'AT', 'FR', 'BE', 'NL', 'CZ', 'DK', 'LU', 'ES', 'GB', 'IE', 'IT', 'LI', 'PL', 'PT', 'RO', 'SE', 'BA', 'BG', 'HR', 'FI', 'GR', 'HU', 'MK', 'NO', 'RU', 'RS', 'SK', 'SI', 'TR']
+
+const newcountries = countries.filter((ccode) => {
+  return allowedContents.includes(ccode.cca2)
+})
   .map(
     ({ cca2, currency, callingCode, name: { common }, translations }) => ({
       [cca2]: {
@@ -35,7 +39,6 @@ const newcountries = countries
       [Object.keys(cur)[0]]: cur[Object.keys(cur)[0]],
     }),
     {});
-
 if (!isCca2) {
   console.log(JSON.stringify(newcountries)); // eslint-disable-line
 } else {
